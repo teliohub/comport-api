@@ -1,4 +1,3 @@
 spring:
-  liquibase:
-    change-log: classpath:db/changelog/changelog-master.yaml
-    enabled: true
+  config:
+    import: optional:secrets.yaml
