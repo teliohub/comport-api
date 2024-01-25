@@ -11,7 +11,17 @@ Open source API for community platform.
 
 ## Running the project
 
-First, run the following command to start the database:
+Create a file named `secrets.yaml` in the resource folder and add the following content:
+
+```shell
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/citizix_db
+    username: citizix_user
+    password: S3cret
+```
+
+Run the following command to start the database:
 
 ```shell
 docker-compose up
