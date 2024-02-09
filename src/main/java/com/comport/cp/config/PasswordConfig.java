@@ -1,4 +1,4 @@
-package config;
+package com.comport.cp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

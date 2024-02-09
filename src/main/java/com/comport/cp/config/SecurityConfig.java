@@ -1,4 +1,4 @@
-package config;
+package com.comport.cp.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -29,4 +29,5 @@ public class SecurityConfig {
                         .authenticated());
         return http.build();
     }
+
 }

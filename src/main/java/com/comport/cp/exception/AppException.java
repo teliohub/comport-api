@@ -1,4 +1,4 @@
-package exception;
+package com.comport.cp.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
