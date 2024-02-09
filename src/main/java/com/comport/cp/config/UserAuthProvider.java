@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.comport.cp.exception.AppException;
 import com.comport.cp.user.User;
+import com.comport.cp.user.UserRepository;
 import com.comport.cp.user.service.UserService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class UserAuthProvider {
     @Value("${secret.key}")
     private String secretKey;
 
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     @PostConstruct
     protected void init() {
@@ -40,7 +41,7 @@ public class UserAuthProvider {
 
         DecodedJWT decoded = verifier.verify(token);
 
-        User user = userService.findById(decoded.getIssuer())
+        User user = userRepository.findById(decoded.getIssuer())
                 .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
         return new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
     }

@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,6 +17,7 @@ import lombok.*;
 public class User {
 
     @Id
+    @UuidGenerator
     @Column(name = "id", updatable = false, nullable = false)
     private String id;
 

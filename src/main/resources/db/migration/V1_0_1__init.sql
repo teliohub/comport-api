@@ -1,7 +1,5 @@
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
 CREATE TABLE IF NOT EXISTS users (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4() NOT NULL,
+    id VARCHAR(255) PRIMARY KEY NOT NULL,
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
@@ -9,16 +7,16 @@ CREATE TABLE IF NOT EXISTS users (
 );
 
 CREATE TABLE IF NOT EXISTS communities (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4() NOT NULL,
+    id VARCHAR(255) PRIMARY KEY NOT NULL,
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
-    creator_id UUID NOT NULL,
+    creator_id VARCHAR(255) NOT NULL,
     FOREIGN KEY (creator_id) REFERENCES users(id)
 );
 
 CREATE TABLE IF NOT EXISTS community_members (
-    user_id UUID NOT NULL,
-    community_id UUID NOT NULL,
+    user_id VARCHAR(255) NOT NULL,
+    community_id VARCHAR(255) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (community_id) REFERENCES communities(id)
 );
