@@ -1,4 +1,4 @@
-package com.comport.cp.user.service.dto;
+package com.comport.cp.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,12 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDto {
+public class UserRegisterDto {
 
-    private String id;
     private String firstName;
     private String lastName;
     private String email;
-
-//    private Community[] communities;
+    private String password;
 }

@@ -3,9 +3,10 @@ package com.comport.cp.user.service.impl;
 import com.comport.cp.config.UserAuthProvider;
 import com.comport.cp.user.User;
 import com.comport.cp.user.UserRepository;
+import com.comport.cp.user.dto.UserLoginDto;
 import com.comport.cp.user.service.UserService;
-import com.comport.cp.user.service.dto.UserDto;
-import com.comport.cp.user.service.dto.UserRegisterDto;
+import com.comport.cp.user.dto.UserDto;
+import com.comport.cp.user.dto.UserRegisterDto;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
@@ -33,10 +34,7 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
 
-        Cookie cookie = new Cookie("token", userAuthProvider.createToken(user));
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(3_600);
+        Cookie cookie = createCookie(userAuthProvider.createToken(user));
 
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.addCookie(cookie);
@@ -47,5 +45,35 @@ public class UserServiceImpl implements UserService {
                 .lastName(user.getLastName())
                 .email(user.getEmail())
                 .build();
+    }
+
+    @Override
+    public UserDto login(UserLoginDto userLoginDto, HttpServletResponse response) {
+        User user = userRepository.findByEmail(userLoginDto.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!passwordEncoder.matches(userLoginDto.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Invalid password");
+        }
+
+        Cookie cookie = createCookie(userAuthProvider.createToken(user));
+
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.addCookie(cookie);
+
+        return UserDto.builder()
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .build();
+    }
+
+    private Cookie createCookie(String token) {
+        Cookie cookie = new Cookie("token", token);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(3_600);
+        return cookie;
     }
 }

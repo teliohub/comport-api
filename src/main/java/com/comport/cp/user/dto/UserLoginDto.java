@@ -1,4 +1,4 @@
-package com.comport.cp.user.service.dto;
+package com.comport.cp.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserRegisterDto {
+public class UserLoginDto {
 
-    private String firstName;
-    private String lastName;
     private String email;
     private String password;
 }
