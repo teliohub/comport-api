@@ -36,6 +36,7 @@ public class CorsConfig {
                 HttpMethod.PUT.name(),
                 HttpMethod.DELETE.name()
         ));
+        config.setAllowCredentials(true);
         config.setMaxAge(3600L);
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);

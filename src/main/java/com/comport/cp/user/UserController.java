@@ -3,6 +3,7 @@ package com.comport.cp.user;
 import com.comport.cp.user.service.UserService;
 import com.comport.cp.user.service.dto.UserDto;
 import com.comport.cp.user.service.dto.UserRegisterDto;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<UserDto> register(@RequestBody UserRegisterDto userRegisterDto) {
-        return ResponseEntity.ok(userService.register(userRegisterDto));
+    public ResponseEntity<UserDto> register(@RequestBody UserRegisterDto userRegisterDto, HttpServletResponse response) {
+        return ResponseEntity.ok(userService.register(userRegisterDto, response));
     }
 }

@@ -6,6 +6,8 @@ import com.comport.cp.user.UserRepository;
 import com.comport.cp.user.service.UserService;
 import com.comport.cp.user.service.dto.UserDto;
 import com.comport.cp.user.service.dto.UserRegisterDto;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,7 +23,7 @@ public class UserServiceImpl implements UserService {
     final UserAuthProvider userAuthProvider;
 
     @Override
-    public UserDto register(UserRegisterDto userRegisterDto) {
+    public UserDto register(UserRegisterDto userRegisterDto, HttpServletResponse response) {
         User user = User.builder()
                 .firstName(userRegisterDto.getFirstName())
                 .lastName(userRegisterDto.getLastName())
@@ -31,12 +33,19 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
 
+        Cookie cookie = new Cookie("token", userAuthProvider.createToken(user));
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(3_600);
+
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.addCookie(cookie);
+
         return UserDto.builder()
                 .id(user.getId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
-                .token(userAuthProvider.createToken(user))
                 .build();
     }
 }
