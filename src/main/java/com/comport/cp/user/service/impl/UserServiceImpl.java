@@ -1,6 +1,7 @@
 package com.comport.cp.user.service.impl;
 
 import com.comport.cp.config.UserAuthProvider;
+import com.comport.cp.exception.AppException;
 import com.comport.cp.user.User;
 import com.comport.cp.user.UserRepository;
 import com.comport.cp.user.dto.UserLoginDto;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -50,10 +52,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto login(UserLoginDto userLoginDto, HttpServletResponse response) {
         User user = userRepository.findByEmail(userLoginDto.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new AppException("User not found", HttpStatus.NOT_FOUND));
 
         if (!passwordEncoder.matches(userLoginDto.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid password");
+            throw new AppException("Invalid password", HttpStatus.UNAUTHORIZED);
         }
 
         Cookie cookie = createCookie(userAuthProvider.createToken(user));
