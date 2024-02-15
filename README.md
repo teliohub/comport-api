@@ -34,4 +34,4 @@ After the container is up, run the following command to start the server:
 mvn spring-boot:run
 ```
 
-> Note: The server will be running on port 8080 and it will populate the database
+> Note: The server will be running on port 8082 and it will populate the database
