@@ -19,6 +19,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/citizix_db
     username: citizix_user
     password: S3cret
+secret.key: "S3cret"
 ```
 
 Run the following command to start the database:
