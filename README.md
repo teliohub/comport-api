@@ -8,6 +8,23 @@ Open source API for community platform.
 - Maven
 - Docker
 - Docker Compose
+- mkcert
+
+## Creating SSL certificates
+
+> **Important!**
+> 
+> Create the certificates only once! There is no need to create them every time!
+
+```shell
+mkcert -install
+```
+
+The following certificate **MUST** be created and located in the `src/main/resources` folder:
+
+```shell
+mkcert -pkcs12 localhost
+```
 
 ## Running the project
 
@@ -20,7 +37,13 @@ spring:
     username: citizix_user
     password: S3cret
 secret.key: "S3cret"
+server:
+  ssl:
+    key-store: classpath:localhost.p12
+    key-store-password: changeit
+    key-password: changeit
 ```
+or see the `secrets_example.yaml` file.
 
 Run the following command to start the database:
 
